@@ -21,7 +21,7 @@ MASTER_KEY_PATH = os.path.join(os.path.dirname(__file__), "master.key")
 class ConfigError(Exception):
     pass
 
-
+# Loads the AI configuration from a JSON file, returning defaults if the file doesn't exist.
 def load_config() -> Dict[str, Any]:
     if not os.path.exists(CONFIG_PATH):
         # return defaults
@@ -41,12 +41,12 @@ def load_config() -> Dict[str, Any]:
         except Exception as e:
             raise ConfigError(f"Failed to parse config: {e}")
 
-
+# Saves the AI configuration to a JSON file.
 def save_config(cfg: Dict[str, Any]) -> None:
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(cfg, f, indent=2)
 
-
+#sets the API key for a given provider, storing it securely
 def store_api_key(provider: str, api_key: str) -> None:
     """Store API key encrypted with a local master key. If cryptography isn't
     available, fall back to keyring if present, or to environment file (less secure).

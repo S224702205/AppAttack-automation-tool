@@ -13,18 +13,18 @@ import getpass
 from .manager import get_ai_response
 from .config_manager import load_config, save_config, store_api_key, get_api_key
 
-
+#Sends a prompt to the AI manager and prints the response
 def cmd_get(args):
     resp = get_ai_response(args.prompt, timeout=args.timeout)
     print(json.dumps(resp, indent=2))
 
-
+#Prompts for an API key and stores it for the given provider
 def cmd_set_key(args):
     key = getpass.getpass(f"Enter API key for {args.provider}: ")
     store_api_key(args.provider, key)
     print("Key stored (using keyring if available).")
 
-
+#Sets the AI mode in the config(cloud/local/hybrid)
 def cmd_set_mode(args):
     cfg = load_config()
     if args.mode not in ("cloud", "local", "hybrid"):
@@ -34,7 +34,7 @@ def cmd_set_mode(args):
     save_config(cfg)
     print("Mode updated")
 
-
+#Prints the current AI config (without secrets)
 def cmd_status(args):
     cfg = load_config()
     # Do not print secrets

@@ -1,5 +1,5 @@
 from typing import Any, Dict, Optional
-from .config_manager import load_config, get_api_key
+from . import config_manager
 from .providers.base import ProviderError
 from .providers.gemini_provider import GeminiProvider
 from .providers.ollama_provider import OllamaProvider
@@ -63,11 +63,11 @@ def get_ai_response(prompt: str, timeout: int = 30) -> NormalizedResponse:
     This scaffold returns a placeholder response so shell scripts can be migrated to call
     this function in the future.
     """
-    cfg = load_config()
+    cfg = config_manager.load_config()
     mode = cfg.get("mode", "hybrid")
     provider = cfg.get("cloud_provider", "gemini")
 
-    api_key = get_api_key(provider)
+    api_key = config_manager.get_api_key(provider)
 
     def _attempt_provider_call(provider_obj, provider_name, provider_type, max_retries=2):
         attempt = 0

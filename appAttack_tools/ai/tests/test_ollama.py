@@ -1,5 +1,4 @@
 import subprocess
-import pytest
 
 from appAttack_tools.ai.providers.ollama_provider import OllamaProvider
 

@@ -41,10 +41,8 @@ class OllamaProvider(BaseProvider):
                 return resp.json()
             except Exception:
                 return {"text": resp.text}
-        except requests.RequestException as e:
-            # network/timeouts -> transient
-            net_err = ProviderError("network_error", str(e), transient=True)
-            # fallback to ollama CLI
+        except Exception as e:
+            # network/timeouts or other HTTP errors -> try CLI fallback
             try:
                 proc = subprocess.run(["ollama", "generate", self.model, prompt], capture_output=True, text=True, timeout=timeout)
                 if proc.returncode != 0:
